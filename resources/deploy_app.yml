@@ -7,12 +7,14 @@
         path: /app
         state: directory
         owner: devops
+        group: devops
 
     - name: Copy artifacts
       copy:
         src: online_shop
         dest: /app/online_shop
         owner: devops
+        group: devops
         mode: 755
 
     - name: Create systemd service
