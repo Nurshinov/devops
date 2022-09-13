@@ -6,6 +6,7 @@
       file:
         path: /app
         state: directory
+        owner: devops
 
     - name: Copy artifacts
       copy:
