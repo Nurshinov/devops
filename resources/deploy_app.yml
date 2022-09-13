@@ -12,6 +12,7 @@
       copy:
         src: online_shop
         dest: /app/online_shop
+        owner: devops
         mode: 755
 
     - name: Create systemd service
