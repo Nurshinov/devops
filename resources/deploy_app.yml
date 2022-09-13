@@ -19,6 +19,7 @@
         dest:  /etc/systemd/system/multi-user.target.wants/shop.service
 
     - name: Restart service
-      service:
+      systemd:
         name: shop
+        daemon_reload: yes
         state: restarted
