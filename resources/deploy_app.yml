@@ -9,6 +9,13 @@
         owner: devops
         group: devops
 
+    - name: Creates directory
+      file:
+        path: /app/images
+        state: directory
+        owner: devops
+        group: devops
+
     - name: Copy artifacts
       copy:
         src: online_shop
