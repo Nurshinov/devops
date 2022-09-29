@@ -21,7 +21,7 @@ def call(String APP_NAME) {
                         ansiblePlaybook(
                                 credentialsId: 'private_key',
                                 inventory: "hosts",
-                                playbook: "deploy_js.yml",
+                                playbook: "playbook.yml",
                                 colorized: true
                         )
                     }
