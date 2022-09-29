@@ -1,0 +1,16 @@
+- name: Start container
+  hosts: app
+  tasks:
+    - name: Copy build dir
+      copy:
+        src: build
+        dest: /app/build
+        owner: devops
+        group: devops
+        mode: 755
+
+    - name: Restart service
+      systemd:
+        name: portfolio
+        daemon_reload: yes
+        state: restarted

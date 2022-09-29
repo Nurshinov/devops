@@ -27,7 +27,6 @@ def call() {
                                     inventory: "hosts",
                                     playbook: "playbook.yml",
                                     colorized: true
-//                            vaultCredentialsId: 'ansible_vault_credentials'
                             )
                         }
                     }

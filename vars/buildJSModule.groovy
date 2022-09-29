@@ -1,19 +1,29 @@
 def call(String APP_NAME) {
-    APP_VERSION = env.BUILD_NUMBER
     node {
         ansiColor('xterm') {
             timestamps {
                 try {
+                    def playBook = libraryResource("deploy_js.yml")
+                    def hosts = libraryResource("hosts")
+                    def ansibleCfg = libraryResource("ansible.cfg")
                     stage('Checkout') {
                         println "Выкачиваем репозиторий с исходным кодом"
                         git_checkout = checkout scm
                         println git_checkout
                     }
-                    stage('Собираем docker образ') {
-                        sh "docker build -t  ${APP_NAME}:${APP_VERSION} ."
+                    stage("Собираем build ${APP_NAME}") {
+                        sh "npm install && npm run build"
                     }
-                    stage('Пушим образ и запускаем') {
-                        sh "docker tag ${APP_NAME}:${APP_VERSION} docker.registry.ext:3000/${APP_NAME}:${APP_VERSION}"
+                    stage('Деплоим и запускаем build') {
+                        writeFile file: 'playbook.yml', text: playBook
+                        writeFile file: 'hosts', text: hosts
+                        writeFile file: 'ansible.cfg', text: ansibleCfg
+                        ansiblePlaybook(
+                                credentialsId: 'private_key',
+                                inventory: "hosts",
+                                playbook: "deploy_js.yml",
+                                colorized: true
+                        )
                     }
                 } catch(exception){
                     println "Сборка упала: " + "\n${exception}"
