@@ -28,6 +28,8 @@ def call(String APP_NAME) {
                 } catch(exception){
                     println "Сборка упала: " + "\n${exception}"
                     currentBuild.result = 'FAILURE'
+                }
+                finally {
                     cleanWs()
                 }
             }

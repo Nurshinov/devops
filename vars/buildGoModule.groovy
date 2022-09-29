@@ -34,6 +34,8 @@ def call() {
                 } catch (exception) {
                     println "Сборка упала: " + "\n${exception}"
                     currentBuild.result = 'FAILURE'
+                }
+                finally {
                     cleanWs()
                 }
             }
