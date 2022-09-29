@@ -1,9 +1,9 @@
-APP_VERSION = ${BUILD_NUMBER}
 def call(String APP_NAME) {
     node {
         ansiColor('xterm') {
             timestamps {
                 try {
+                    APP_VERSION = ${BUILD_NUMBER}
                     stage('Checkout') {
                         println "Выкачиваем репозиторий с исходным кодом"
                         git_checkout = checkout scm
