@@ -11,8 +11,8 @@ def call(String appName) {
                     }
                     stage('Build') {
                         println "Собираем образ и пушим в registry"
-                        sh "docker build -t ${DOCKER_REGISTRY_REPO}/${appName.toLowerCase()}:${branch}."
                         branch = git_checkout.branch == "master" ? "latest" : git_checkout.branch
+                        sh "docker build -t ${DOCKER_REGISTRY_REPO}/${appName.toLowerCase()}:${branch}."
                         sh "docker push ${DOCKER_REGISTRY_REPO}/${appName.toLowerCase()}:${branch}"
                     }
                     cleanWs()
