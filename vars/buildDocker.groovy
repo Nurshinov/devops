@@ -8,9 +8,9 @@ def call(String appName) {
                         println "Выкачиваем репозиторий с исходным кодом"
                         git_checkout = checkout scm
                         println git_checkout
-                        String tagName = git_checkout.GIT_BRANCH == "master" ? "latest" : git_checkout.GIT_BRANCH.replaceAll('/','_')
                     }
                     stage('Build') {
+                        String tagName = git_checkout.GIT_BRANCH == "master" ? "latest" : git_checkout.GIT_BRANCH.replaceAll('/','_')
                         dockerImage = docker.build("${DOCKER_REGISTRY_REPO}/${appName.toLowerCase()}:${tagName}")
                     }
                     stage('Push image') {
