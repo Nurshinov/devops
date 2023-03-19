@@ -11,9 +11,9 @@ def call(String appName) {
                     }
                     stage('Build') {
                         println "Собираем образ и пушим в registry"
-                        branch = git_checkout.GIT_BRANCH == "master" ? "latest" : git_checkout.GIT_BRANCH
-                        sh "docker build -t ${DOCKER_REGISTRY_REPO}/${appName.toLowerCase()}:${branch} ."
-                        sh "docker push ${DOCKER_REGISTRY_REPO}/${appName.toLowerCase()}:${branch}"
+                        String tagName = git_checkout.GIT_BRANCH == "master" ? "latest" : git_checkout.GIT_BRANCH.replaceAll('/','_')
+                        sh "docker build -t ${DOCKER_REGISTRY_REPO}/${appName.toLowerCase()}:${tagName} ."
+                        sh "docker push ${DOCKER_REGISTRY_REPO}/${appName.toLowerCase()}:${tagName}"
                     }
                     cleanWs()
                 } catch (exception) {
