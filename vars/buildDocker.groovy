@@ -8,12 +8,15 @@ def call(String appName) {
                         println "Выкачиваем репозиторий с исходным кодом"
                         git_checkout = checkout scm
                         println git_checkout
+                        String tagName = git_checkout.GIT_BRANCH == "master" ? "latest" : git_checkout.GIT_BRANCH.replaceAll('/','_')
                     }
                     stage('Build') {
-                        println "Собираем образ и пушим в registry"
-                        String tagName = git_checkout.GIT_BRANCH == "master" ? "latest" : git_checkout.GIT_BRANCH.replaceAll('/','_')
-                        sh "docker build -t ${DOCKER_REGISTRY_REPO}/${appName.toLowerCase()}:${tagName} ."
-                        sh "docker push ${DOCKER_REGISTRY_REPO}/${appName.toLowerCase()}:${tagName}"
+                        dockerImage = docker.build("${DOCKER_REGISTRY_REPO}/${appName.toLowerCase()}:${tagName}")
+                    }
+                    stage('Push image') {
+                        withDockerRegistry([ credentialsId: "dockerhub_cred", url: "" ]) {
+                            dockerImage.push()
+                        }
                     }
                     cleanWs()
                 } catch (exception) {
