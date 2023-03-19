@@ -1,5 +1,5 @@
 def call(String appName) {
-    DOCKER_REGISTRY_REPO = alimzhannurshinov
+    DOCKER_REGISTRY_REPO = "alimzhannurshinov"
     node {
         ansiColor('xterm') {
             timestamps {
